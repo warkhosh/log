@@ -1,0 +1,43 @@
+<?php
+
+namespace Warkhosh\Log;
+
+use Throwable;
+
+/**
+ * Class Log
+ *
+ * @package Warkhosh\Log
+ */
+class Log extends AppLog implements LogInterface
+{
+    /**
+     * Example to handle the received exception
+     *
+     * @param Throwable|array|string $arg
+     * @return array
+     */
+    public function getParams($arg = null)
+    {
+        // Here you can define and pass your parameters for more flexibility in the project
+        // $customValue = "some meaning";
+
+        // Handle received exception
+        if ($arg instanceof Throwable) {
+            return [
+                "log"   => $arg->getMessage(),
+                "code"  => $arg->getCode(),
+                "file"  => $arg->getFile() . ($arg->getLine() > 0 ? "(" . $arg->getLine() . ")" : ''),
+                "line"  => $arg->getLine(),
+                "trace" => $arg->getTraceAsString(),
+                // "custom_field" => $customValue,
+            ];
+        }
+
+        $arg = is_array($arg) ? $arg : (array)$arg;
+
+        // $arg['custom_field'] = $customValue;
+
+        return AppLog::getParams($arg);
+    }
+}
