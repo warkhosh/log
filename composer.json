@@ -1,0 +1,33 @@
+{
+  "name": "warkhosh/log",
+  "type": "library",
+  "description": "A set of scripts for logging results",
+  "keywords": [
+    "php",
+    "basic",
+    "class",
+    "log"
+  ],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "support": {
+    "email": "ekv.programmer@gmail.com"
+  },
+  "authors": [
+    {
+      "name": "Konstantin Egorov",
+      "email": "ekv.programmer@gmail.com"
+    }
+  ],
+  "repositories": [
+  ],
+  "require": {
+    "php": ">=7.1.16"
+  },
+  "autoload": {
+    "psr-4": {
+      "Warkhosh\\Log\\": ""
+    },
+    "files": []
+  }
+}
