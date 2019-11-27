@@ -1,16 +1,41 @@
 <?php
 
-namespace Warkhosh\Log;
+namespace Project\Lib;
 
 use Throwable;
 
 /**
- * Class Log
+ * Example of application in your project
  *
- * @package Warkhosh\Log
+ * @package Project\Lib
  */
 class Log extends AppLog implements LogInterface
 {
+	/**
+     * @var int|null
+     */
+    const MAX_SIZE_IN_BYTES = ((1024 * 1024) * 25);
+
+	/**
+     * AppLog constructor
+     *
+     * @param string $path
+     */
+    public function __construct()
+    {
+        $setting = getConfig('config.log', []);
+
+		if (key_exists('dir', $setting)) {
+			$this->setPath($setting['dir']);
+		}
+
+		if (key_exists('mode', $setting)) {
+			$this->setMode($setting['mode']);
+		}
+
+		$this->mode = self::STAGE;
+    }
+
     /**
      * Example to handle the received exception
      *
