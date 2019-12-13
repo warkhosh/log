@@ -173,7 +173,7 @@ abstract class AppLog implements LogInterface
     {
         if (is_array($arg)) {
             $arg = is_array($arg) ? $arg : func_get_args();
-            $arg = ['log' => count($arg) === 1 && array_key_exists(0, $arg) ? array_shift($arg) : $arg];
+            $arg = ['log' => $arg];
 
         } else {
             $arg = ['log' => (string)$arg];
