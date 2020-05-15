@@ -186,8 +186,8 @@ abstract class AppLog implements LogInterface
         } else {
             $trace = debug_backtrace();
 
-            if (isset($trace[2]) && $trace[2]['function'] === 'call_user_func_array' && isset($trace[3])) {
-                $trace = array_slice($trace, 4, 30);
+            if (isset($trace[3]) && $trace[3]['function'] === 'call_user_func_array' && isset($trace[4])) {
+                $trace = array_slice($trace, 5, 30);
                 $trace = static::getItemsOnly(["file", "line"], $trace);
                 $arg['trace'] = '';
 
@@ -197,8 +197,8 @@ abstract class AppLog implements LogInterface
                     }
                 }
 
-            } elseif (isset($trace[2])) {
-                $trace = array_slice($trace, 2, 30);
+            } elseif (isset($trace[3])) {
+                $trace = array_slice($trace, 3, 30);
                 $trace = static::getItemsOnly(["file", "line"], $trace);
                 $arg['trace'] = '';
 
