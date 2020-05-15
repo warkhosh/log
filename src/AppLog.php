@@ -258,10 +258,9 @@ abstract class AppLog implements LogInterface
             return true;
 
         } catch (Throwable $e) {
-            echo $e->getMessage();
-
             if ($this->mode !== static::PROD) {
-                echo $content . "2222";
+                echo $e->getMessage() . "\n";
+                echo $content;
             }
         }
 
