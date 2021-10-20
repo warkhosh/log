@@ -75,7 +75,7 @@ abstract class AppLog implements LogInterface
     public function info($log)
     {
         try {
-            $content = var_export($this->getParams($log), true);
+            $content = var_export(static::getParams($log), true);
             $this->save(date('[Y-m-d H:i:s]') . " {$content}", "info_" . date('Y_m_d') . ".log");
 
         } catch (Throwable $e) {
@@ -94,7 +94,7 @@ abstract class AppLog implements LogInterface
     public function warning($log)
     {
         try {
-            $content = var_export($this->getParams($log), true);
+            $content = var_export(static::getParams($log), true);
             $this->save(date('[Y-m-d H:i:s]') . " {$content}", "warning_" . date('Y_m_d') . ".log");
 
         } catch (Throwable $e) {
@@ -113,7 +113,7 @@ abstract class AppLog implements LogInterface
     public function error($log)
     {
         try {
-            $content = var_export($this->getParams($log), true);
+            $content = var_export(static::getParams($log), true);
             $this->save(date('[Y-m-d H:i:s]') . " {$content}", "error_" . date('Y_m_d') . ".log");
 
         } catch (Throwable $e) {
@@ -132,7 +132,7 @@ abstract class AppLog implements LogInterface
     public function debug($log)
     {
         try {
-            $content = var_export($this->getParams($log), true);
+            $content = var_export(static::getParams($log), true);
             $this->save(date('[Y-m-d H:i:s]') . " {$content}", "debug_" . date('Y_m_d') . ".log");
 
         } catch (Throwable $e) {
@@ -151,7 +151,7 @@ abstract class AppLog implements LogInterface
     public function report($log)
     {
         try {
-            $content = var_export($this->getParams($log), true);
+            $content = var_export(static::getParams($log), true);
             $this->save(date('[Y-m-d H:i:s]') . " {$content}", "report_" . date('Y_m_d') . ".log");
 
         } catch (Throwable $e) {
@@ -169,7 +169,7 @@ abstract class AppLog implements LogInterface
      * @param array | string | Throwable $arg
      * @return array
      */
-    public function getParams($arg = null)
+    static public function getParams($arg = null)
     {
         if (is_array($arg)) {
             $arg = is_array($arg) ? $arg : func_get_args();

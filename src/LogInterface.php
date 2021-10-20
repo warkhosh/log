@@ -52,12 +52,12 @@ interface LogInterface
     public function report($log);
 
     /**
-     * Метод определяет параметры для записис в лог.
+     * Метод определяет параметры для записи в лог.
      *
      * @param \Throwable|array|string $arg
      * @return array
      */
-    public function getParams($arg = null);
+    static public function getParams($arg = null);
 
     /**
      * Save log

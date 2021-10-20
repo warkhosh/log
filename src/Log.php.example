@@ -42,7 +42,7 @@ class Log extends AppLog implements LogInterface
      * @param Throwable|array|string $arg
      * @return array
      */
-    public function getParams($arg = null)
+    static public function getParams($arg = null)
     {
         // Here you can define and pass your parameters for more flexibility in the project
         // $customValue = "some meaning";
