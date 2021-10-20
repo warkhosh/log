@@ -164,13 +164,23 @@ abstract class AppLog implements LogInterface
     }
 
     /**
-     * Метод определяет параметры для записис в лог.
+     * Метод определяет параметры для записи в лог.
      *
      * @param array | string | Throwable $arg
      * @return array
      */
     static public function getParams($arg = null)
     {
+        if ($arg instanceof Throwable) {
+            return [
+                "log"         => $arg->getMessage(),
+                "code"        => $arg->getCode(),
+                "file"        => $arg->getFile() . ($arg->getLine() > 0 ? "(" . $arg->getLine() . ")" : ''),
+                "line"        => $arg->getLine(),
+                "trace"       => $arg->getTraceAsString(),
+            ];
+        }
+
         if (is_array($arg)) {
             $arg = is_array($arg) ? $arg : func_get_args();
             $arg = ['log' => $arg];
