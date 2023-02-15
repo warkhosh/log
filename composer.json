@@ -20,9 +20,21 @@
     }
   ],
   "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/warkhosh/component.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/warkhosh/variable.git"
+    }
   ],
   "require": {
     "php": ">=7.1.16"
+  },
+  "require-dev": {
+    "warkhosh/component": "dev-master",
+    "warkhosh/variable": "dev-master"
   },
   "autoload": {
     "psr-4": {

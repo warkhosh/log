@@ -23,7 +23,7 @@ class Log extends AppLog implements LogInterface
      */
     public function __construct()
     {
-        $setting = getConfig('config.log', []);
+        $setting = (array)\Warkhosh\Component\Config\AppConfig::getInstance()->get('config.log', []);
 
 		if (key_exists('dir', $setting)) {
 			$this->setPath($setting['dir']);
