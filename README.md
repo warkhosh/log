@@ -1,3 +1,3 @@
 # log
 
-Application - skeleton for logging data to files.
+Application - skeleton for logging data to files
