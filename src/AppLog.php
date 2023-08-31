@@ -175,22 +175,17 @@ abstract class AppLog implements LogInterface
             ob_start();
             $df = fopen("php://output", 'w');
 
-            $array = [date('[H:i:s]'), $url];
+            $array = ["time" => date('[H:i:s]'), "url" => (string)$url];
 
             if (! empty($userAgent)) {
-                $array[] = $userAgent;
+                $array["user_agent"] = $userAgent;
             }
 
             if (! empty($clientIp)) {
-                $array[] = $clientIp;
+                $array["client_ip"] = $clientIp;
             }
 
-            fputcsv($df, array_keys(reset($array)));
-
-            foreach ($array as $row) {
-                fputcsv($df, $row);
-            }
-
+            fputcsv($df, $array, ",");
             fclose($df);
             $content = ob_get_clean();
 
