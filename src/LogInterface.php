@@ -52,10 +52,10 @@ interface LogInterface
     public function report($log);
 
     /**
-     * @param string $url
+     * @param string|array $url
      * @return void
      */
-    public function notFound(string $url);
+    public function notFound($url);
 
     /**
      * Метод определяет параметры для записи в лог.
@@ -70,7 +70,8 @@ interface LogInterface
      *
      * @param string $content
      * @param string $file
+     * @param string $lineCompletion
      * @return bool
      */
-    public function save(string $content, string $file);
+    public function save(string $content, string $file, string $lineCompletion = "\n\n");
 }

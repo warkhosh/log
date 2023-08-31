@@ -164,13 +164,14 @@ abstract class AppLog implements LogInterface
     }
 
     /**
-     * @param string $url
+     * @param string|array $url
      * @return void
      */
-    public function notFound(string $url)
+    public function notFound($url)
     {
         try {
-            $this->save(date('[Y-m-d H:i:s]') . " {$url}", "notFound_" . date('Y_m_d') . ".log");
+            $url = is_array($url) ? var_export($url, true) : $url;
+            $this->save(date('[Y-m-d H:i:s]') . " {$url}", "notFound_" . date('Y_m_d') . ".log", "\n");
 
         } catch (Throwable $e) {
             static::error($e);
@@ -246,14 +247,15 @@ abstract class AppLog implements LogInterface
      *
      * @param string $content
      * @param string $file
+     * @param string $lineCompletion
      * @return bool
      */
-    public function save(string $content, string $file)
+    public function save(string $content, string $file, string $lineCompletion = "\n\n")
     {
         try {
             $file = "{$this->path}/{$file}";
             $fileExist = file_exists($file);
-            $content .= "\n\n";
+            $content .= $lineCompletion;
 
             if (! is_dir($this->path)) {
                 return mkdir($this->path, 0755, true);
