@@ -189,7 +189,7 @@ abstract class AppLog implements LogInterface
             fclose($df);
             $content = ob_get_clean();
 
-            $this->save($content, "notFound_" . date('Y_m_d') . ".log", "\n");
+            $this->save($content, "notFound_" . date('Y_m_d') . ".log", "");
 
         } catch (Throwable $e) {
             static::error($e);
