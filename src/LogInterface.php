@@ -52,10 +52,12 @@ interface LogInterface
     public function report($log);
 
     /**
-     * @param string|array $url
+     * @param string      $url
+     * @param string|null $userAgent
+     * @param string|null $clientIp
      * @return void
      */
-    public function notFound($url);
+    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null);
 
     /**
      * Метод определяет параметры для записи в лог.

@@ -164,14 +164,37 @@ abstract class AppLog implements LogInterface
     }
 
     /**
-     * @param string|array $url
+     * @param string      $url
+     * @param string|null $userAgent
+     * @param string|null $clientIp
      * @return void
      */
-    public function notFound($url)
+    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null)
     {
         try {
-            $url = is_array($url) ? var_export($url, true) : $url;
-            $this->save(date('[Y-m-d H:i:s]') . " {$url}", "notFound_" . date('Y_m_d') . ".log", "\n");
+            ob_start();
+            $df = fopen("php://output", 'w');
+
+            $array = [date('[H:i:s]'), $url];
+
+            if (! empty($userAgent)) {
+                $array[] = $userAgent;
+            }
+
+            if (! empty($clientIp)) {
+                $array[] = $clientIp;
+            }
+
+            fputcsv($df, array_keys(reset($array)));
+
+            foreach ($array as $row) {
+                fputcsv($df, $row);
+            }
+
+            fclose($df);
+            $content = ob_get_clean();
+
+            $this->save($content, "notFound_" . date('Y_m_d') . ".log", "\n");
 
         } catch (Throwable $e) {
             static::error($e);
@@ -192,11 +215,11 @@ abstract class AppLog implements LogInterface
     {
         if ($arg instanceof Throwable) {
             return [
-                "log"         => $arg->getMessage(),
-                "code"        => $arg->getCode(),
-                "file"        => $arg->getFile() . ($arg->getLine() > 0 ? "(" . $arg->getLine() . ")" : ''),
-                "line"        => $arg->getLine(),
-                "trace"       => $arg->getTraceAsString(),
+                "log"   => $arg->getMessage(),
+                "code"  => $arg->getCode(),
+                "file"  => $arg->getFile() . ($arg->getLine() > 0 ? "(" . $arg->getLine() . ")" : ''),
+                "line"  => $arg->getLine(),
+                "trace" => $arg->getTraceAsString(),
             ];
         }
 
