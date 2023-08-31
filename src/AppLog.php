@@ -164,6 +164,24 @@ abstract class AppLog implements LogInterface
     }
 
     /**
+     * @param string $url
+     * @return void
+     */
+    public function notFound(string $url)
+    {
+        try {
+            $this->save(date('[Y-m-d H:i:s]') . " {$url}", "notFound_" . date('Y_m_d') . ".log");
+
+        } catch (Throwable $e) {
+            static::error($e);
+
+            if ($this->mode !== static::PROD) {
+                var_export($url, true);
+            }
+        }
+    }
+
+    /**
      * Метод определяет параметры для записи в лог.
      *
      * @param array | string | Throwable $arg

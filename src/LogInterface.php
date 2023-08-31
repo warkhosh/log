@@ -52,6 +52,12 @@ interface LogInterface
     public function report($log);
 
     /**
+     * @param string $url
+     * @return void
+     */
+    public function notFound(string $url);
+
+    /**
      * Метод определяет параметры для записи в лог.
      *
      * @param \Throwable|array|string $arg
