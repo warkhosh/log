@@ -34,7 +34,8 @@
   },
   "require-dev": {
     "warkhosh/component": "dev-master",
-    "warkhosh/variable": "dev-master"
+    "warkhosh/variable": "dev-master",
+    "laravel/pint": "^1.13"
   },
   "autoload": {
     "psr-4": {
