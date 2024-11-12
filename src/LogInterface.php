@@ -33,28 +33,24 @@ interface LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function warning(mixed $log): void;
 
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function error(mixed $log): void;
 
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function debug(mixed $log): void;
 
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function report(mixed $log): void;
 

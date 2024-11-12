@@ -72,7 +72,6 @@ abstract class AppLog implements LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function info(mixed $log): void
     {
@@ -88,7 +87,6 @@ abstract class AppLog implements LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function warning(mixed $log): void
     {
@@ -104,7 +102,6 @@ abstract class AppLog implements LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function error(mixed $log): void
     {
@@ -120,7 +117,6 @@ abstract class AppLog implements LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function debug(mixed $log): void
     {
@@ -136,7 +132,6 @@ abstract class AppLog implements LogInterface
     /**
      * @param mixed|Throwable $log
      * @return void
-     * @throws Throwable
      */
     public function report(mixed $log): void
     {
@@ -154,7 +149,6 @@ abstract class AppLog implements LogInterface
      * @param string|null $userAgent
      * @param string|null $clientIp
      * @return void
-     * @throws Throwable
      */
     public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null): void
     {
@@ -179,11 +173,7 @@ abstract class AppLog implements LogInterface
             $this->save($content, "notFound_".date('Y_m_d').".log", "");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                throw $e;
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
