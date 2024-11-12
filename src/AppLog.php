@@ -2,6 +2,7 @@
 
 namespace Warkhosh\Log;
 
+use Exception;
 use Throwable;
 
 /**
@@ -14,29 +15,29 @@ abstract class AppLog implements LogInterface
     /**
      * @var int|null
      */
-    const MAX_SIZE_IN_BYTES = null;
+    public const MAX_SIZE_IN_BYTES = null;
 
     /**
      * Mode
      */
-    const PROD = 'prod';
-    const STAGE = 'stage';
-    const DEV = 'dev';
+    public const PROD = 'prod';
+    public const STAGE = 'stage';
+    public const DEV = 'dev';
 
     /**
      * @var array
      */
-    public static $modeList = [self::PROD, self::STAGE, self::DEV];
+    public static array $modeList = [self::PROD, self::STAGE, self::DEV];
 
     /**
      * @var string
      */
-    protected $mode = self::PROD;
+    protected string $mode = self::PROD;
 
     /**
      * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * AppLog constructor
@@ -52,7 +53,7 @@ abstract class AppLog implements LogInterface
      * @param string $mode
      * @return void
      */
-    public function setMode(string $mode)
+    public function setMode(string $mode): void
     {
         if (in_array($mode, static::$modeList)) {
             $this->mode = $mode;
@@ -63,119 +64,105 @@ abstract class AppLog implements LogInterface
      * @param string $path
      * @return void
      */
-    public function setPath(string $path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
     /**
-     * @param Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function info($log)
+    public function info(mixed $log): void
     {
         try {
             $content = var_export(static::getParams($log), true);
-            $this->save(date('[Y-m-d H:i:s]') . " {$content}", "info_" . date('Y_m_d') . ".log");
+            $this->save(date('[Y-m-d H:i:s]')." {$content}", "info_".date('Y_m_d').".log");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                var_export($log, true);
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
     /**
-     * @param Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function warning($log)
+    public function warning(mixed $log): void
     {
         try {
             $content = var_export(static::getParams($log), true);
-            $this->save(date('[Y-m-d H:i:s]') . " {$content}", "warning_" . date('Y_m_d') . ".log");
+            $this->save(date('[Y-m-d H:i:s]')." {$content}", "warning_".date('Y_m_d').".log");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                var_export($log, true);
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
     /**
-     * @param Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function error($log)
+    public function error(mixed $log): void
     {
         try {
             $content = var_export(static::getParams($log), true);
-            $this->save(date('[Y-m-d H:i:s]') . " {$content}", "error_" . date('Y_m_d') . ".log");
+            $this->save(date('[Y-m-d H:i:s]')." {$content}", "error_".date('Y_m_d').".log");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                var_export($log, true);
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
     /**
-     * @param Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function debug($log)
+    public function debug(mixed $log): void
     {
         try {
             $content = var_export(static::getParams($log), true);
-            $this->save(date('[Y-m-d H:i:s]') . " {$content}", "debug_" . date('Y_m_d') . ".log");
+            $this->save(date('[Y-m-d H:i:s]')." {$content}", "debug_".date('Y_m_d').".log");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                var_export($log, true);
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
     /**
-     * @param Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function report($log)
+    public function report(mixed $log): void
     {
         try {
             $content = var_export(static::getParams($log), true);
-            $this->save(date('[Y-m-d H:i:s]') . " {$content}", "report_" . date('Y_m_d') . ".log");
+            $this->save(date('[Y-m-d H:i:s]')." {$content}", "report_".date('Y_m_d').".log");
 
         } catch (Throwable $e) {
-            static::error($e);
-
-            if ($this->mode !== static::PROD) {
-                var_export($log, true);
-            }
+            $this->handlingSaveLog($e);
         }
     }
 
     /**
-     * @param string      $url
+     * @param string $url
      * @param string|null $userAgent
      * @param string|null $clientIp
      * @return void
+     * @throws Throwable
      */
-    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null)
+    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null): void
     {
         try {
             ob_start();
             $df = fopen("php://output", 'w');
 
-            $array = ["time" => date('[H:i:s]'), "url" => (string)$url];
+            $array = ["time" => date('[H:i:s]'), "url" => $url];
 
             if (! empty($userAgent)) {
                 $array["user_agent"] = $userAgent;
@@ -189,13 +176,13 @@ abstract class AppLog implements LogInterface
             fclose($df);
             $content = ob_get_clean();
 
-            $this->save($content, "notFound_" . date('Y_m_d') . ".log", "");
+            $this->save($content, "notFound_".date('Y_m_d').".log", "");
 
         } catch (Throwable $e) {
             static::error($e);
 
             if ($this->mode !== static::PROD) {
-                var_export($url, true);
+                throw $e;
             }
         }
     }
@@ -203,27 +190,25 @@ abstract class AppLog implements LogInterface
     /**
      * Метод определяет параметры для записи в лог.
      *
-     * @param array | string | Throwable $arg
+     * @param array|float|int|string|Throwable|null $arg
      * @return array
      */
-    static public function getParams($arg = null)
+    public static function getParams(mixed $arg = null): array
     {
         if ($arg instanceof Throwable) {
             return [
-                "log"   => $arg->getMessage(),
-                "code"  => $arg->getCode(),
-                "file"  => $arg->getFile() . ($arg->getLine() > 0 ? "(" . $arg->getLine() . ")" : ''),
-                "line"  => $arg->getLine(),
+                "log" => $arg->getMessage(),
+                "code" => $arg->getCode(),
+                "file" => $arg->getFile().($arg->getLine() > 0 ? "(".$arg->getLine().")" : ''),
+                "line" => $arg->getLine(),
                 "trace" => $arg->getTraceAsString(),
             ];
         }
 
         if (is_array($arg)) {
-            $arg = is_array($arg) ? $arg : func_get_args();
             $arg = ['log' => $arg];
-
         } else {
-            $arg = ['log' => (string)$arg];
+            $arg = ['log' => func_get_args()];
         }
 
         if (isset($arg['log']['trace']) && is_array($arg['log']['trace'])) {
@@ -238,7 +223,7 @@ abstract class AppLog implements LogInterface
                 $trace = static::getItemsOnly(["file", "line"], $trace);
                 $arg['trace'] = '';
 
-                foreach ($trace as $key => $row) {
+                foreach ($trace as $row) {
                     if (is_array($row) && count($row) === 2) {
                         $arg['trace'] .= "\n{$row['file']}({$row['line']})";
                     }
@@ -249,7 +234,7 @@ abstract class AppLog implements LogInterface
                 $trace = static::getItemsOnly(["file", "line"], $trace);
                 $arg['trace'] = '';
 
-                foreach ($trace as $key => $row) {
+                foreach ($trace as $row) {
                     if (is_array($row) && count($row) === 2) {
                         $arg['trace'] .= "\n{$row['file']}({$row['line']})";
                     }
@@ -268,7 +253,7 @@ abstract class AppLog implements LogInterface
      * @param string $lineCompletion
      * @return bool
      */
-    public function save(string $content, string $file, string $lineCompletion = "\n\n")
+    public function save(string $content, string $file, string $lineCompletion = "\n\n"): bool
     {
         try {
             $file = "{$this->path}/{$file}";
@@ -294,11 +279,11 @@ abstract class AppLog implements LogInterface
 
             if ($fileExist === false) {
                 if (file_put_contents($file, $content, LOCK_EX) === false) {
-                    throw new \Exception("I can not create a file {$file}");
+                    throw new Exception("I can not create a file {$file}");
                 }
 
             } elseif (file_put_contents($file, $content, FILE_APPEND | LOCK_EX) === false) {
-                throw new \Exception("I can not create a file: {$file}");
+                throw new Exception("I can not create a file: {$file}");
             }
 
             chmod($file, 0755);
@@ -307,7 +292,7 @@ abstract class AppLog implements LogInterface
 
         } catch (Throwable $e) {
             if ($this->mode !== static::PROD) {
-                echo $e->getMessage() . "\n";
+                echo $e->getMessage()."\n";
                 echo $content;
             }
         }
@@ -319,19 +304,34 @@ abstract class AppLog implements LogInterface
      * Leave the specified subset of items in lists
      *
      * @param array|string $haystack
-     * @param array        $array
+     * @param array $array
      * @return array
      */
-    static function getItemsOnly($haystack, array $array)
+    public static function getItemsOnly(array|string $haystack, array $array): array
     {
         if (count($array)) {
             $haystack = is_array($haystack) ? $haystack : (array)$haystack;
 
             foreach ($array as $key => $values) {
-                $array[$key] = array_intersect_key($values, array_flip((array)$haystack));
+                $array[$key] = array_intersect_key($values, array_flip($haystack));
             }
         }
 
         return $array;
+    }
+
+    /**
+     * Error handler for logging
+     *
+     * @note reassign this method in your child class for more fine-tuning.
+     *
+     * @param Throwable $error
+     * @return void
+     */
+    protected function handlingSaveLog(Throwable $error): void
+    {
+        if ($this->mode !== static::PROD) {
+            var_dump($error->getMessage());
+        }
     }
 }

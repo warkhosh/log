@@ -2,6 +2,8 @@
 
 namespace Warkhosh\Log;
 
+use Throwable;
+
 /**
  * Interface LogInterface
  *
@@ -13,59 +15,64 @@ interface LogInterface
      * @param string $mode
      * @return void
      */
-    public function setMode(string $mode);
+    public function setMode(string $mode): void;
 
     /**
      * @param string $path
      * @return void
      */
-    public function setPath(string $path);
+    public function setPath(string $path): void;
 
     /**
-     * @param \Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function info($log);
+    public function info(mixed $log): void;
 
     /**
-     * @param \Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function warning($log);
+    public function warning(mixed $log): void;
 
     /**
-     * @param \Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function error($log);
+    public function error(mixed $log): void;
 
     /**
-     * @param \Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function debug($log);
+    public function debug(mixed $log): void;
 
     /**
-     * @param \Throwable|mixed $log
+     * @param mixed|Throwable $log
      * @return void
+     * @throws Throwable
      */
-    public function report($log);
+    public function report(mixed $log): void;
 
     /**
-     * @param string      $url
+     * @param string $url
      * @param string|null $userAgent
      * @param string|null $clientIp
      * @return void
      */
-    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null);
+    public function notFound(string $url, ?string $userAgent = null, ?string $clientIp = null): void;
 
     /**
      * Метод определяет параметры для записи в лог.
      *
-     * @param \Throwable|array|string $arg
+     * @param array|float|int|string|Throwable|null $arg
      * @return array
      */
-    static public function getParams($arg = null);
+    public static function getParams(mixed $arg = null): array;
 
     /**
      * Save log
@@ -75,5 +82,5 @@ interface LogInterface
      * @param string $lineCompletion
      * @return bool
      */
-    public function save(string $content, string $file, string $lineCompletion = "\n\n");
+    public function save(string $content, string $file, string $lineCompletion = "\n\n"): bool;
 }
