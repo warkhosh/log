@@ -6,8 +6,6 @@ use Throwable;
 
 /**
  * Example of application in your project
- *
- * @package Project\Lib
  */
 class Log extends AppLog implements LogInterface
 {
@@ -23,7 +21,7 @@ class Log extends AppLog implements LogInterface
      */
     public function __construct()
     {
-        $setting = (array)\Warkhosh\Component\Config\AppConfig::getInstance()->get('config.log', []);
+        $setting = (array)\Warkhosh\Config\Config::getInstance()->get('log', []);
 
 		if (key_exists('dir', $setting)) {
 			$this->setPath($setting['dir']);

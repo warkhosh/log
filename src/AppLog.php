@@ -13,6 +13,7 @@ use Throwable;
 abstract class AppLog implements LogInterface
 {
     /**
+     * @example MAX_SIZE_IN_BYTES = ((1024 * 1024) * 50)
      * @var int|null
      */
     public const MAX_SIZE_IN_BYTES = null;

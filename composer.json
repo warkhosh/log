@@ -30,16 +30,16 @@
     }
   ],
   "require": {
-    "php": ">=8.1"
+    "php": ">=8.1",
+    "warkhosh/component": "dev-master",
+    "warkhosh/variable": "dev-master"
   },
   "require-dev": {
-    "warkhosh/component": "dev-master",
-    "warkhosh/variable": "dev-master",
     "laravel/pint": "^1.13"
   },
   "autoload": {
     "psr-4": {
-      "Warkhosh\\Log\\": ""
+      "Warkhosh\\Log\\": "src"
     },
     "files": []
   }
